@@ -1,0 +1,107 @@
+intents:
+  - hello
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - currencies
+  - currency_exchange
+  - check_request
+  - check_num
+  - action_atm_locator
+  - address_name
+  - ask_atm
+
+entities:
+  - currency
+  - object_type
+  - check
+  - check_num
+  - location
+  - longtitude
+  - latitude
+
+slots:
+  currency:
+    type: text
+  object_type:
+    type: text
+  check:
+    type: text
+  check_num:
+    type: text
+  latitude:
+    type: unfeaturized
+  longtitude:
+    type: unfeaturized
+  location:
+    type: unfeaturized
+
+actions:
+ - utter_greet
+ - utter_cheer_up
+ - utter_did_that_help
+ - utter_happy
+ - utter_goodbye
+ - utter_iamabot
+ - utter_currencies
+ - utter_deny
+ - utter_check_ask
+ - uttr_ask_address
+ - action_check_currency
+ - action_get_cheque
+ - action_say_hello
+ - action_atm_locator
+ - utter_can_i_help_you
+ - utter_can_i_help
+ - utter_sad
+
+responses:
+  utter_ask_address:
+  - text: "Вкажіть, будь ласка, адресу яка вас цікавить"
+
+  utter_greet:
+  - text: "Вітаю! Як ваші справи?"
+
+  utter_can_i_help:
+  - text: "Чим я можу Вам допомогти?"
+
+  utter_can_i_help_you:
+  - text: "Чим ще можу Вам допомогти?"
+
+  utter_cheer_up:
+  - text: "Сподівюсь Вас це підбадьорить"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Чи це Вам допомоголо?"
+
+  utter_happy:
+  - text: "Чудово!"
+
+  utter_goodbye:
+  - text: "До побачення"
+
+  utter_iamabot:
+  - text: "Я бот, розроблений Раса"
+
+  utter_currencies:
+  - text: "Яку саме валюту ви хочете обміняти?"
+
+  utter_deny:
+  - text: "Нажаль ні"
+
+  utter_check_ask:
+  - text: "Вкажіть 9 цифр номеру квитанції"
+
+  utter_sad:
+  - text: "Прикро"
+
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
