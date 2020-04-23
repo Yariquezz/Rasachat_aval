@@ -1,18 +1,16 @@
 intents:
   - hello
-  - greet
+  - chitchat
   - goodbye
+  - inform
   - affirm
   - deny
   - mood_great
   - mood_unhappy
   - bot_challenge
-  - currencies
   - currency_exchange
   - check_request
-  - check_num
   - action_atm_locator
-  - address_name
   - ask_atm
 
 entities:
@@ -63,9 +61,6 @@ responses:
   utter_ask_address:
   - text: "Вкажіть, будь ласка, адресу яка вас цікавить"
 
-  utter_greet:
-  - text: "Вітаю! Як ваші справи?"
-
   utter_can_i_help:
   - text: "Чим я можу Вам допомогти?"
 
@@ -99,6 +94,9 @@ responses:
 
   utter_sad:
   - text: "Прикро"
+
+  utter_greet:
+  - text: "Як Ваші справи?"
 
 
 

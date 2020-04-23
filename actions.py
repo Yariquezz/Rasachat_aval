@@ -218,10 +218,11 @@ class ActionGetCheque(Action):
         ip = self.get_ip()
         time = str(int(datetime.now().timestamp()))
         password = signature(check=check, time=time)
-
+        text = ""
         params = {}
         url = 'http://localhost:8000/api/check'
-        response = requests.get(url=url, json=params,
+        try:
+            response = requests.get(url=url, json=params,
                                 headers=
                                 {
                                     'Content-Type': 'application/json',
@@ -230,25 +231,26 @@ class ActionGetCheque(Action):
                                     'x-real-ip': ip,
                                     'x-hmac': password
                                 })
-
-        text = ""
-
-        if response.status_code == 200:
-            resp = json.loads(response.text)
-            doc = {
-                "sender": "платник",
-                "recipient": "отримувач",
-                "amount": "сумма",
-                "date": "дата",
-                "description": "призначення",
-                "currencyCode": "валюта",
-                "comissionRate": "комісія",
-                "link_code": "скачати квитанцію тут"
-            }
-            for i in resp['payments'][0]:
-                text += ("{}{} {}\n".format(doc[i], ":", resp['payments'][0][i]))
+        except Exception as e:
+            print(e)
+            text = 'Щось пішло не так'
         else:
-            text = "Чек не знайдено"
+            if response.status_code == 200:
+                resp = json.loads(response.text)
+                doc = {
+                    "sender": "платник",
+                    "recipient": "отримувач",
+                    "amount": "сумма",
+                    "date": "дата",
+                    "description": "призначення",
+                    "currencyCode": "валюта",
+                    "comissionRate": "комісія",
+                    "link_code": "скачати квитанцію тут"
+                }
+                for i in resp['payments'][0]:
+                    text += ("{}{} {}\n".format(doc[i], ":", resp['payments'][0][i]))
+            else:
+                text = "Чек не знайдено"
 
         dispatcher.utter_message(text=text)
 
