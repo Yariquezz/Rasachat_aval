@@ -20,6 +20,7 @@ import hmac
 import base64
 from datetime import datetime
 import googlemaps
+import local_settings
 
 # class ActionHelloWorld(Action):
 #
@@ -48,7 +49,7 @@ class AtmLocator(Action):
         lon = tracker.get_slot("longtitude")
 
         if lat and lon:
-            gmaps = googlemaps.Client(key='AIzaSyCHsyTDfvYvpASbU0c5Jl_SsHUNtMU57H0')
+            gmaps = googlemaps.Client(key=local_settings.GOOGLE_KEY)
             text = ''
             origins = (lat, lon)
             your_location = gmaps.reverse_geocode(latlng=(lat, lon), language='uk')
