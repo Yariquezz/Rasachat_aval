@@ -35,7 +35,8 @@ import local_settings
 #
 #         return []
 
-class AtmLocator(Action):
+
+class ActionBracnhLocator(Action):
 
     def name(self):
         return "action_atm_locator"
@@ -59,6 +60,99 @@ class AtmLocator(Action):
                 your_location[0]['address_components'][0]['long_name'])
             param = {
                 'kind': 'atm',
+                'contetn-type': 'json'
+            }
+            url = 'http://api.finlocator.com/api/syndicate/Rny.json'
+
+            r = requests.get(url=url, params=param)
+
+            if r.status_code == 200:
+                response = json.loads(r.text)
+                # create empty lists
+                branches = []
+                branches_loc = []
+                l = 0
+                branches_result = []
+                first = 0
+                last = 100
+
+                for i in response['features']:
+                    branches.append(
+                        {
+                            "name": i["name_ua"],
+                            "address": i["address_ua"],
+                            "location": i["loc"],
+                            "is_online": i["is_online"]
+                        }
+                    )
+                    branches_loc.append(
+                        {
+                            'lat': i["loc"]["lat"],
+                            'lng': i["loc"]["lon"]
+                        }
+                    )
+
+                elements = len(branches_loc) // 100
+                for j in range(1, elements):
+                    distance = gmaps.distance_matrix(destinations=branches_loc[first:last], origins=origins,
+                                                     language='uk',
+                                                     mode="walking")
+                    for k in distance['rows'][0]['elements']:
+                        branches_result.append([k['distance']['value'],
+                                                '{} {} {}'.format(k['distance']['text'], branches[l]['name'],
+                                                                  branches[l]['address'])])
+                        l += 1
+
+                    first += 100
+                    last += 100
+
+                distance = gmaps.distance_matrix(destinations=branches_loc[last:len(branches_loc)], origins=origins,
+                                                 language='uk', mode="walking")
+                for k in distance['rows'][0]['elements']:
+                    branches_result.append([k['distance']['value'],
+                                            '{} {} {}'.format(k['distance']['text'], branches[l]['name'],
+                                                              branches[l]['address'])])
+                    l += 1
+
+                branches_result.sort()
+
+                for value in branches_result[:3]:
+                    text = text + '{} \n'.format(value[1])
+            else:
+                text += "не знайдено \n Сервер даних не відповідає"
+        else:
+            text = 'Адресу вказано не вірно'
+
+        dispatcher.utter_message(text=text)
+
+        return []
+
+
+
+class ActionAtmLocator(Action):
+
+    def name(self):
+        return "action_branch_locator"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]):
+
+
+        ## extract the required slots
+        location = tracker.get_slot("location")
+        lat = tracker.get_slot("latitude")
+        lon = tracker.get_slot("longtitude")
+
+        if lat and lon:
+            gmaps = googlemaps.Client(key=local_settings.GOOGLE_KEY)
+            text = ''
+            origins = (lat, lon)
+            your_location = gmaps.reverse_geocode(latlng=(lat, lon), language='uk')
+            text += 'Найближчі банкомати до вашої адреси \n {} {} {} \n'.format(
+                your_location[0]['address_components'][2]['long_name'],
+                your_location[0]['address_components'][1]['short_name'],
+                your_location[0]['address_components'][0]['long_name'])
+            param = {
+                'kind': 'branch',
                 'contetn-type': 'json'
             }
             url = 'http://api.finlocator.com/api/syndicate/Rny.json'
@@ -264,3 +358,12 @@ def signature(check, time):
     secret = bytes(pass_word, 'utf-8')
     sign = base64.b64encode(hmac.new(secret, message, digestmod=hashlib.sha256).digest()).decode('utf-8')
     return sign
+
+
+def localisator(language):
+    switcher = {
+        'uk': ["Я", "розмовляю", "українською"],
+        'ru': ["Я", "говорю", "по-русски"],
+        'en': ["I", "speak", "English" ]
+
+    return switcher.get(language, ["Я", "розмовляю", "українською"])
