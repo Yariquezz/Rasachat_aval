@@ -19,7 +19,7 @@ entities:
   - check
   - check_num
   - location
-  - longtitude
+  - longitude
   - latitude
 
 slots:
@@ -33,7 +33,7 @@ slots:
     type: text
   latitude:
     type: unfeaturized
-  longtitude:
+  longitude:
     type: unfeaturized
   location:
     type: unfeaturized
@@ -53,6 +53,7 @@ actions:
  - action_get_cheque
  - action_say_hello
  - action_atm_locator
+ - action_branch_locator
  - utter_can_i_help_you
  - utter_can_i_help
  - utter_sad

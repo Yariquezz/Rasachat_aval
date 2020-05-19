@@ -74,7 +74,7 @@
  - utter_sad
  - utter_can_i_help
   
-## atm_info_happy
+## atm_info_happy_latlon
 * ask_atm
   - utter_ask_address
 * inform{"latitude":"18.940170","longitude":"72.83486"}
@@ -84,10 +84,30 @@
  - utter_happy
  - utter_can_i_help_you
 
-## atm_info_sad
+## atm_info_sad_latlon
 * ask_atm
   - utter_ask_address
 * inform{"latitude":"18.940170","longitude":"72.83486"}
+ - action_atm_locator
+ - utter_did_that_help
+ * deny
+ - utter_sad
+ - utter_can_i_help_you
+
+## atm_info_happy_location
+* ask_atm
+  - utter_ask_address
+* inform{"location":"Ірпінь"}
+ - action_atm_locator
+ - utter_did_that_help
+* affirm
+ - utter_happy
+ - utter_can_i_help_you
+
+## atm_info_sad_location
+* ask_atm
+  - utter_ask_address
+* inform{"location":"Харків"}
  - action_atm_locator
  - utter_did_that_help
  * deny
