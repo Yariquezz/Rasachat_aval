@@ -7,8 +7,10 @@ import googlemaps
 
 logger = logging.getLogger(__name__)
 
-CHECK_PASS = 'qwerty-12345'
-GOOGLE_KEY = 'AIzaSyCHsyTDfvYvpASbU0c5Jl_SsHUNtMU57H0'
+CHECK_PASS = ''
+GOOGLE_KEY = ''
+
+from .local import *
 
 
 def localisator(language: str, kind: str):
@@ -27,6 +29,8 @@ def localisator(language: str, kind: str):
             'currencyCode': 'валюта',
             'comissionRate': 'комісія',
             'link_code': 'скачати квитанцію тут',
+            'work_hours': 'Робочі години: ',
+            'closed': 'Зачинено'
         },
         'ru': {
             'atm': ['name_ru', 'address_ru', 'address_notes_ru'],
@@ -42,6 +46,8 @@ def localisator(language: str, kind: str):
             'currencyCode': 'валюта',
             'comissionRate': 'комисия',
             'link_code': 'скачать квитанцию тут',
+            'work_hours': 'Время работы: ',
+            'closed': 'Закрыто'
         },
         'en': {
             'atm': ['name_en', 'address_en', 'address_notes_en'],
@@ -57,16 +63,18 @@ def localisator(language: str, kind: str):
             'currencyCode': 'currency code',
             'comissionRate': 'comission rate',
             'link_code': 'download here',
+            'work_hours': 'Work hours: ',
+            'closed': 'Closed',
         },
     }
-
-    logger.info('language is {}'.format(language))
 
     resp = switcher.get(language)
     if isinstance(resp, dict):
         resp = resp.get(kind)
+        logger.info('{}'.format(resp))
     else:
         resp = ''  # default response
+        logger.info('{}'.format(resp))
     return resp
 
 

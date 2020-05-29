@@ -29,7 +29,8 @@ class ActionBranchLocator(Action):
                 f = Finlocator_API.search(kind='branch', address=location, language='uk')
             except Exception as err:
                 logger.info('Error Finlocator API request: %s' % err)
-                text=localisator('uk', 'not found')
+                text = localisator('uk', 'not found')
+                logger.info('Response: %s' % text)
             else:
                 for i in f:
                     text += '%s \n' % i
@@ -38,12 +39,14 @@ class ActionBranchLocator(Action):
                 f = Finlocator_API.search(kind='branch', lat=lat, lon=lon, language='uk')
             except Exception as err:
                 logger.info('Error Finlocator API request: %s' % err)
-                text=localisator('uk', 'not found')
+                text = localisator('uk', 'not found')
+                logger.info('Response: %s' % text)
             else:
                 for i in f:
                     text += '%s \n' % i
         else:
             text = localisator('uk', 'not found')
+            logger.info('Response: %s' % text)
 
         dispatcher.utter_message(text=text)
 
