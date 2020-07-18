@@ -53,41 +53,41 @@ def search(**kwargs):
                 if kwargs['kind'] == 'branch':
                     for i in temp_resp:
                         if i['is_online']:
-                            resp.append("{}\n{}\n{}\n{}".format(
+                            resp.append(["{}\n{}\n{}\n{}".format(
                                 i[localisator(language=language, kind=kwargs['kind'])[0]],
                                 i[localisator(language=language, kind=kwargs['kind'])[1]],
                                 branch_schedule(i[localisator(language=language, kind=kwargs['kind'])[2]], language=language),
                                 distance_matrix(destinations=(i['loc']['lat'], i['loc']['lon']), origins=origins,
                                                 language=language)
-                            ))
+                            ), i['loc']])
                 # else return location details
                 else:
                     for i in temp_resp:
                         if i['is_online']:
-                            resp.append("{}\n{}\n{}\n{}".format(
+                            resp.append(["{}\n{}\n{}\n{}".format(
                                 i[localisator(language=language, kind=kwargs['kind'])[0]],
                                 i[localisator(language=language, kind=kwargs['kind'])[1]],
                                 i[localisator(language=language, kind=kwargs['kind'])[2]],
                                 distance_matrix(destinations=(i['loc']['lat'], i['loc']['lon']), origins=origins,
                                                 language=language)
-                            ))
+                            ), i['loc']])
             else:
                 if kwargs['kind'] == 'branch':
                     for i in temp_resp:
                         if i['is_online']:
-                            resp.append("{}\n{}\n{}\n".format(
+                            resp.append(["{}\n{}\n{}\n".format(
                                 i[localisator(language=language, kind=kwargs['kind'])[0]],
                                 i[localisator(language=language, kind=kwargs['kind'])[1]],
                                 branch_schedule(i[localisator(language=language, kind=kwargs['kind'])[2]], language=language),
-                            ))
+                            ), i['loc']])
                         else:
                             for i in temp_resp:
                                 if i['is_online']:
-                                    resp.append("{}\n{}\n{}\n".format(
+                                    resp.append(["{}\n{}\n{}\n".format(
                                         i[localisator(language=language, kind=kwargs['kind'])[0]],
                                         i[localisator(language=language, kind=kwargs['kind'])[1]],
                                         i[localisator(language=language, kind=kwargs['kind'])[2]]
-                                    ))
+                                    ), i['loc']])
         else:
             logger.info('Response: %s' % resp)
             return resp
@@ -97,7 +97,7 @@ def search(**kwargs):
 
 
 if __name__ == "__main__":
-    loc = search(kind='atm', lat=50.518687, lon=30.20389, language='ru')
+    loc = search(kind='atm', lat=51.034067, lon=31.875736, language='ru')
     print(len(loc), loc)
     address = search(kind='branch', address='Irpin', language='ru')
     print(len(address), address[0])

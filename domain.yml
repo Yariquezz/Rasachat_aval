@@ -1,106 +1,114 @@
-intents:
-  - hello
-  - chitchat
-  - goodbye
-  - inform
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - currency_exchange
-  - check_request
-  - action_atm_locator
-  - ask_atm
-
+actions:
+- action_atm_locator
+- action_branch_locator
+- action_carousel
+- action_check_currency
+- action_get_cheque
+- action_say_hello
+- action_time_check
+- utter_ask_address
+#- utter_atm
+- utter_can_i_help
+- utter_can_i_help_you
+- utter_check_ask
+- utter_cheer_up
+- utter_currencies
+- utter_default
+- utter_deny
+- utter_did_that_help
+- utter_goodbye
+- utter_greet
+- utter_happy
+- utter_iamabot
+- utter_sad
+- uttr_ask_address
 entities:
-  - currency
-  - object_type
-  - check
-  - check_num
-  - location
-  - longitude
-  - latitude
-
+- check_num
+- currency
+- latitude
+- location
+- longitude
+intents:
+- hello
+- carousel
+- inform
+- ask_atm
+- check_request
+- start
+- currency_exchange
+- ask_branch
+- chitchat
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- action_atm_locator
+- out_of_scope
+- get_back
+responses:
+  utter_ask_address:
+  - buttons:
+    - payload: /inform{"latitude":"51.034067", "longitude":"31.875736"}
+      title: Поділитись координатами
+    - payload: /inform{"location":"Ірпінь"}
+      title: Вказати місто
+    - payload: /inform
+      title: Відкрити карту
+      type: location-picker
+    - payload: /deny
+      title: Назад
+    text: Вкажіть адресу або місто яке Вас цікавить
+  utter_can_i_help:
+  - text: Чим я можу Вам допомогти?
+  utter_can_i_help_you:
+  - text: Чим ще можу Вам допомогти?
+  utter_check_ask:
+  - text: Вкажіть 9 цифр номеру квитанції
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: Сподівюсь Вас це підбадьорить
+  utter_currencies:
+  - buttons:
+    - payload: /inform{"currency":"долар"}
+      title: USD
+    - payload: /inform{"currency":"євро"}
+      title: EUR
+    text: Яку саме валюту ви хочете обміняти?
+  utter_default:
+  - text: Нажаль, я незрозумів вас
+  utter_deny:
+  - text: Нажаль ні
+  utter_did_that_help:
+  - text: Чи це Вам допомоголо?
+  utter_goodbye:
+  - text: До побачення
+  utter_greet:
+  - text: Як Ваші справи?
+  utter_happy:
+  - text: Чудово!
+  utter_iamabot:
+  - text: Я бот розроблений Раса
+  utter_sad:
+  - text: Прикро
+session_config:
+  carry_over_slots_to_new_session: true
+  session_expiration_time: 60
 slots:
-  currency:
-    type: text
-  object_type:
-    type: text
   check:
     type: text
   check_num:
     type: text
+  currency:
+    type: text
   latitude:
-    type: unfeaturized
-  longitude:
-    type: unfeaturized
+    max_value: 90.0
+    min_value: -90.0
+    type: float
   location:
     type: unfeaturized
-
-actions:
- - utter_greet
- - utter_cheer_up
- - utter_did_that_help
- - utter_happy
- - utter_goodbye
- - utter_iamabot
- - utter_currencies
- - utter_deny
- - utter_check_ask
- - uttr_ask_address
- - action_check_currency
- - action_get_cheque
- - action_say_hello
- - action_atm_locator
- - action_branch_locator
- - utter_can_i_help_you
- - utter_can_i_help
- - utter_sad
-
-responses:
-  utter_ask_address:
-  - text: "Вкажіть, будь ласка, адресу яка вас цікавить"
-
-  utter_can_i_help:
-  - text: "Чим я можу Вам допомогти?"
-
-  utter_can_i_help_you:
-  - text: "Чим ще можу Вам допомогти?"
-
-  utter_cheer_up:
-  - text: "Сподівюсь Вас це підбадьорить"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Чи це Вам допомоголо?"
-
-  utter_happy:
-  - text: "Чудово!"
-
-  utter_goodbye:
-  - text: "До побачення"
-
-  utter_iamabot:
-  - text: "Я бот, розроблений Раса"
-
-  utter_currencies:
-  - text: "Яку саме валюту ви хочете обміняти?"
-
-  utter_deny:
-  - text: "Нажаль ні"
-
-  utter_check_ask:
-  - text: "Вкажіть 9 цифр номеру квитанції"
-
-  utter_sad:
-  - text: "Прикро"
-
-  utter_greet:
-  - text: "Як Ваші справи?"
-
-
-
-session_config:
-  session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  longitude:
+    max_value: 180.0
+    min_value: -180.0
+    type: float

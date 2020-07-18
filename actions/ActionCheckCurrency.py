@@ -38,18 +38,28 @@ class ActionCheckCurrency(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]):
         now = datetime.now().strftime("%Y%m%d")
         dt = datetime.now().strftime("%d.%m.%Y")
+        slot = []
 
         obj = tracker.get_slot("currency")
 
         if obj in ("долар", "долари", "доляри"):
             currency = 'USD'
+            slot = [
+                SlotSet("currency", currency)
+            ]
         elif obj in ("євро", "єври", "ойро"):
             currency = 'EUR'
+            slot = [
+                SlotSet("currency", currency)
+            ]
         elif obj in ("рублі", "рублів", "рубль"):
             currency = 'RUB'
+            slot = [
+                SlotSet("currency", currency)
+            ]
         else:
             dispatcher.utter_message(text="Даної валюти не знайдено. Уточніть назву валюти")
-            return []
+            return slot
 
         param = {'date': now, 'contetn-type': 'json'}
         url = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange'
@@ -76,6 +86,6 @@ class ActionCheckCurrency(Action):
 
         dispatcher.utter_message(text=text)
 
-        return [SlotSet("currency", obj)]
+        return slot
 
 

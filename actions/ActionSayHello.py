@@ -2,6 +2,7 @@ from typing import Any, Text, Dict
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
 
 from actions.Support import localisator
 import logging
@@ -25,9 +26,8 @@ class ActionSayHello(Action):
                 hello = hello.read()
         except Exception as err:
             logger.info('Error here: %s' % err)
-            text = localisator('uk', 'hello')
+            dispatcher.utter_message(text=localisator('uk', 'hello'))
         else:
-            text = hello
+            dispatcher.utter_message(text=hello)
 
-        dispatcher.utter_message(text=localisator('uk', 'hello'))
         return []

@@ -1,11 +1,11 @@
 import requests
 import json
 import logging
+import socket
 from datetime import datetime
 
 from actions.Support import get_ip, signature, localisator
 
-CHECK_URL = 'http://localhost:8000/api/check'
 TIME = str(int(datetime.now().timestamp()))
 IP = get_ip()
 HEADERS = {
@@ -15,6 +15,20 @@ HEADERS = {
 }
 
 logger = logging.getLogger(__name__)
+
+
+def get_host_ip():
+    try:
+        host_name = socket.gethostname()
+        host_ip = socket.gethostbyname(host_name)
+    except Exception as err:
+        logger.info("Unable to get Hostname and IP because of {} return localhost".format(err))
+        return 'localhost'
+    else:
+        return host_ip
+
+
+CHECK_URL = 'http://{}:8000/api/check'.format(get_host_ip())
 
 
 def get_check(check):
